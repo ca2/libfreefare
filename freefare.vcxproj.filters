@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="libfreefare\felica.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\freefare.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="contrib\libutil\hexdump.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\mad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\mifare_application.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\mifare_classic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\mifare_desfire.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\mifare_desfire_aid.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\mifare_desfire_crypto.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\mifare_desfire_error.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\mifare_desfire_key.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\mifare_ultralight.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\ntag21x.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libfreefare\tlv.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="libfreefare\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{F3A39F40-8B3C-32D2-8976-0CB99867CA51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{7A456C3A-A17C-3B7D-BD21-9C189689E135}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="libfreefare\freefare_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libfreefare\freefare.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="freefare.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

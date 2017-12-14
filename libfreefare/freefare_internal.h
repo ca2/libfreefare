@@ -1,8 +1,8 @@
-#ifndef __FREEFARE_INTERNAL_H__
+﻿#ifndef __FREEFARE_INTERNAL_H__
 #define __FREEFARE_INTERNAL_H__
 
 #if defined(HAVE_CONFIG_H)
-    #include "config.h"
+#include "config.h"
 #endif
 
 #include <openssl/des.h>
@@ -25,55 +25,55 @@
  */
 
 #if !defined(le32toh) && defined(letoh32)
-    #define le32toh(x) letoh32(x)
-    #define be32toh(x) betoh32(x)
+#define le32toh(x) letoh32(x)
+#define be32toh(x) betoh32(x)
 #endif
 
 #if !defined(le16toh) && defined(letoh16)
-    #define le16toh(x) letoh16(x)
-    #define be16toh(x) betoh16(x)
+#define le16toh(x) letoh16(x)
+#define be16toh(x) betoh16(x)
 #endif
 
 #if !defined(le32toh) && defined(HAVE_COREFOUNDATION_COREFOUNDATION_H)
-    #define be32toh(x) CFSwapInt32BigToHost(x)
-    #define htobe32(x) CFSwapInt32HostToBig(x)
-    #define le32toh(x) CFSwapInt32LittleToHost(x)
-    #define htole32(x) CFSwapInt32HostToLittle(x)
+#define be32toh(x) CFSwapInt32BigToHost(x)
+#define htobe32(x) CFSwapInt32HostToBig(x)
+#define le32toh(x) CFSwapInt32LittleToHost(x)
+#define htole32(x) CFSwapInt32HostToLittle(x)
 #endif
 
 #if !defined(le16toh) && defined(HAVE_COREFOUNDATION_COREFOUNDATION_H)
-    #define be16toh(x) CFSwapInt16BigToHost(x)
-    #define htobe16(x) CFSwapInt16HostToBig(x)
-    #define le16toh(x) CFSwapInt16LittleToHost(x)
-    #define htole16(x) CFSwapInt16HostToLittle(x)
+#define be16toh(x) CFSwapInt16BigToHost(x)
+#define htobe16(x) CFSwapInt16HostToBig(x)
+#define le16toh(x) CFSwapInt16LittleToHost(x)
+#define htole16(x) CFSwapInt16HostToLittle(x)
 #endif
 
 #if !defined(le32toh) && defined(bswap_32)
-    #if BYTE_ORDER == LITTLE_ENDIAN
-	#define be32toh(x) bswap_32(x)
-	#define htobe32(x) bswap_32(x)
-	#define le32toh(x) (x)
-	#define htole32(x) (x)
-    #else
-	#define be32toh(x) (x)
-	#define htobe32(x) (x)
-	#define le32toh(x) bswap_32(x)
-	#define htole32(x) bswap_32(x)
-    #endif
+#if BYTE_ORDER == LITTLE_ENDIAN
+#define be32toh(x) bswap_32(x)
+#define htobe32(x) bswap_32(x)
+#define le32toh(x) (x)
+#define htole32(x) (x)
+#else
+#define be32toh(x) (x)
+#define htobe32(x) (x)
+#define le32toh(x) bswap_32(x)
+#define htole32(x) bswap_32(x)
+#endif
 #endif
 
 #if !defined(htole16) && defined(bswap_16)
-    #if BYTE_ORDER == LITTLE_ENDIAN
-	#define be16toh(x) (bswap_16(x))
-	#define htobe16(x) (bswap_16(x))
-	#define htole16(x) (x)
-	#define le16toh(x) (x)
-    #else
-	#define be16toh(x) (x)
-	#define htobe16(x) (x)
-	#define htole16(x) (bswap_16(x))
-	#define le16toh(x) (bswap_16(x))
-    #endif
+#if BYTE_ORDER == LITTLE_ENDIAN
+#define be16toh(x) (bswap_16(x))
+#define htobe16(x) (bswap_16(x))
+#define htole16(x) (x)
+#define le16toh(x) (x)
+#else
+#define be16toh(x) (x)
+#define htobe16(x) (x)
+#define htole16(x) (bswap_16(x))
+#define le16toh(x) (bswap_16(x))
+#endif
 #endif
 
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -90,14 +90,16 @@ void		 nxp_crc(uint8_t *crc, const uint8_t value);
 uint8_t		 sector_0x00_crc8(Mad mad);
 uint8_t		 sector_0x10_crc8(Mad mad);
 
-typedef enum {
-    MCD_SEND,
-    MCD_RECEIVE
+typedef enum
+{
+   MCD_SEND,
+   MCD_RECEIVE
 } MifareCryptoDirection;
 
-typedef enum {
-    MCO_ENCYPHER,
-    MCO_DECYPHER
+typedef enum
+{
+   MCO_ENCYPHER,
+   MCO_DECYPHER
 } MifareCryptoOperation;
 
 #define MDCM_MASK 0x000F
@@ -150,102 +152,113 @@ void		*assert_crypto_buffer_size(FreefareTag tag, size_t nbytes);
  * Extra members in derived classes are initialized in the correpsonding
  * mifare_*_connect() function.
  */
-struct freefare_tag {
-    nfc_device *device;
-    nfc_target info;
-    int type;
-    int active;
-    void (*free_tag)(FreefareTag tag);
+struct freefare_tag
+{
+   nfc_device *device;
+   nfc_target info;
+   int type;
+   int active;
+   void (*free_tag)(FreefareTag tag);
 };
 
-struct felica_tag {
-    struct freefare_tag __tag;
+struct felica_tag
+{
+   struct freefare_tag __tag;
 };
 
-struct mifare_classic_tag {
-    struct freefare_tag __tag;
+struct mifare_classic_tag
+{
+   struct freefare_tag __tag;
 
-    MifareClassicKeyType last_authentication_key_type;
+   MifareClassicKeyType last_authentication_key_type;
 
-    /*
-     * The following block numbers are on 2 bytes in order to use invalid
-     * address and avoid false cache hit with inconsistent data.
-     */
-    struct {
-	int16_t sector_trailer_block_number;
-	uint16_t sector_access_bits;
-	int16_t block_number;
-	uint8_t block_access_bits;
-    } cached_access_bits;
+   /*
+    * The following block numbers are on 2 bytes in order to use invalid
+    * address and avoid false cache hit with inconsistent data.
+    */
+   struct
+   {
+      int16_t sector_trailer_block_number;
+      uint16_t sector_access_bits;
+      int16_t block_number;
+      uint8_t block_access_bits;
+   } cached_access_bits;
 };
 
-struct mifare_desfire_aid {
-    uint8_t data[3];
+struct mifare_desfire_aid
+{
+   uint8_t data[3];
 };
 
-struct mifare_desfire_key {
-    uint8_t data[24];
-    enum {
-	T_DES,
-	T_3DES,
-	T_3K3DES,
-	T_AES
-    } type;
-    DES_key_schedule ks1;
-    DES_key_schedule ks2;
-    DES_key_schedule ks3;
-    uint8_t cmac_sk1[24];
-    uint8_t cmac_sk2[24];
-    uint8_t aes_version;
+struct mifare_desfire_key
+{
+   uint8_t data[24];
+   enum
+   {
+      T_DES,
+      T_3DES,
+      T_3K3DES,
+      T_AES
+   } type;
+   DES_key_schedule ks1;
+   DES_key_schedule ks2;
+   DES_key_schedule ks3;
+   uint8_t cmac_sk1[24];
+   uint8_t cmac_sk2[24];
+   uint8_t aes_version;
 };
 
-struct mifare_desfire_tag {
-    struct freefare_tag __tag;
+struct mifare_desfire_tag
+{
+   struct freefare_tag __tag;
 
-    uint8_t last_picc_error;
-    uint8_t last_internal_error;
-    uint8_t last_pcd_error;
-    MifareDESFireKey session_key;
-    enum { AS_LEGACY, AS_NEW } authentication_scheme;
-    uint8_t authenticated_key_no;
-    uint8_t ivect[MAX_CRYPTO_BLOCK_SIZE];
-    uint8_t cmac[16];
-    uint8_t *crypto_buffer;
-    size_t crypto_buffer_size;
-    uint32_t selected_application;
+   uint8_t last_picc_error;
+   uint8_t last_internal_error;
+   uint8_t last_pcd_error;
+   MifareDESFireKey session_key;
+   enum { AS_LEGACY, AS_NEW } authentication_scheme;
+   uint8_t authenticated_key_no;
+   uint8_t ivect[MAX_CRYPTO_BLOCK_SIZE];
+   uint8_t cmac[16];
+   uint8_t *crypto_buffer;
+   size_t crypto_buffer_size;
+   uint32_t selected_application;
 };
 
 MifareDESFireKey mifare_desfire_session_key_new(const uint8_t rnda[], const uint8_t rndb[], MifareDESFireKey authentication_key);
 const char	*mifare_desfire_error_lookup(uint8_t error);
 
-struct mifare_ultralight_tag {
-    struct freefare_tag __tag;
+struct mifare_ultralight_tag
+{
+   struct freefare_tag __tag;
 
-    /* mifare_ultralight_read() reads 4 pages at a time (wrapping) */
-    MifareUltralightPage cache[MIFARE_ULTRALIGHT_MAX_PAGE_COUNT + 3];
-    uint8_t cached_pages[MIFARE_ULTRALIGHT_MAX_PAGE_COUNT];
+   /* mifare_ultralight_read() reads 4 pages at a time (wrapping) */
+   MifareUltralightPage cache[MIFARE_ULTRALIGHT_MAX_PAGE_COUNT + 3];
+   uint8_t cached_pages[MIFARE_ULTRALIGHT_MAX_PAGE_COUNT];
 };
 
 /*
   NTAG section
 */
 
-struct ntag21x_tag {
-    struct freefare_tag __tag;
+struct ntag21x_tag
+{
+   struct freefare_tag __tag;
 
-    int subtype;
-    uint8_t vendor_id;
-    uint8_t product_type;
-    uint8_t product_subtype;
-    uint8_t major_product_version;
-    uint8_t minor_product_version;
-    uint8_t storage_size;
-    uint8_t protocol_type;
+   int subtype;
+   uint8_t vendor_id;
+   uint8_t product_type;
+   uint8_t product_subtype;
+   uint8_t major_product_version;
+   uint8_t minor_product_version;
+   uint8_t storage_size;
+   uint8_t protocol_type;
 };
 
-struct ntag21x_key {
-    uint8_t data[4]; // 4B key
-    uint8_t pack[2]; // 2B Password Acknowlege
+struct ntag21x_key
+{
+   uint8_t data[4]; // 4B key
+   uint8_t pack[2]; // 2B Password Acknowlege
 };
 
 /*
@@ -276,11 +289,11 @@ struct ntag21x_key {
 #define TB_AB(ab) ((ab == C_DEFAULT) ? C_100 : ab)
 
 #ifdef WITH_DEBUG
-    #define DEBUG_FUNCTION() do { printf("*** \033[033;1m%s\033[0m ***\n", __FUNCTION__); } while (0)
-    #define DEBUG_XFER(data, nbytes, hint) do { hexdump (data, nbytes, hint, 0); } while (0)
+#define DEBUG_FUNCTION() do { printf("*** \033[033;1m%s\033[0m ***\n", __FUNCTION__); } while (0)
+#define DEBUG_XFER(data, nbytes, hint) do { hexdump (data, nbytes, hint, 0); } while (0)
 #else
-    #define DEBUG_FUNCTION() do {} while (0)
-    #define DEBUG_XFER(data, nbytes, hint) do {} while (0)
+#define DEBUG_FUNCTION() do {} while (0)
+#define DEBUG_XFER(data, nbytes, hint) do {} while (0)
 #endif
 
 
@@ -305,7 +318,7 @@ struct ntag21x_key {
  * Initialise a buffer named buffer_name of size bytes.
  */
 #define BUFFER_INIT(buffer_name, size) \
-    uint8_t buffer_name[size]; \
+    uint8_t * buffer_name = malloc(size); \
     size_t __##buffer_name##_size = size; \
     size_t __##buffer_name##_n = 0
 

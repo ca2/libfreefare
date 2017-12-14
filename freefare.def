@@ -1,0 +1,13 @@
+﻿LIBRARY
+
+EXPORTS
+mifare_ultralight_connect
+freefare_get_tags
+freefare_get_tag_type
+freefare_get_tag_uid
+freefare_get_tag_friendly_name
+mifare_desfire_3des_key_new
+mifare_ultralightc_authenticate
+mifare_desfire_key_free
+mifare_ultralight_disconnect
+freefare_free_tags

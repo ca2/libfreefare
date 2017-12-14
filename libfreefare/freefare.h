@@ -1,5 +1,7 @@
-#ifndef __FREEFARE_H__
+﻿#ifndef __FREEFARE_H__
 #define __FREEFARE_H__
+
+#define ssize_t size_t
 
 #include <sys/types.h>
 
@@ -11,26 +13,27 @@
 extern "C" {
 #endif // __cplusplus
 
-enum freefare_tag_type {
-    FELICA,
-    MIFARE_MINI,
-    MIFARE_CLASSIC_1K,
-    MIFARE_CLASSIC_4K,
-    MIFARE_DESFIRE,
+enum freefare_tag_type
+{
+   FELICA,
+   MIFARE_MINI,
+   MIFARE_CLASSIC_1K,
+   MIFARE_CLASSIC_4K,
+   MIFARE_DESFIRE,
 //    MIFARE_PLUS_S2K,
 //    MIFARE_PLUS_S4K,
 //    MIFARE_PLUS_X2K,
 //    MIFARE_PLUS_X4K,
-    MIFARE_ULTRALIGHT,
-    MIFARE_ULTRALIGHT_C,
-    NTAG_21x,
+   MIFARE_ULTRALIGHT,
+   MIFARE_ULTRALIGHT_C,
+   NTAG_21x,
 };
 
 struct freefare_tag;
 typedef struct freefare_tag *FreefareTag;
 
 /* Replace any MifareTag by the generic FreefareTag. */
-typedef struct freefare_tag *MifareTag __attribute__((deprecated));
+///typedef struct freefare_tag *MifareTag __attribute__((deprecated));
 
 struct mifare_desfire_key;
 typedef struct mifare_desfire_key *MifareDESFireKey;
@@ -100,10 +103,11 @@ bool		 ntag21x_taste(nfc_device *device, nfc_target target);
 #define NTAG_NFC_CNT_PWD_PROT 0x10
 #define NTAG_AUTHLIM 0x07
 
-enum ntag_tag_subtype {
-    NTAG_213,
-    NTAG_215,
-    NTAG_216
+enum ntag_tag_subtype
+{
+   NTAG_213,
+   NTAG_215,
+   NTAG_216
 };
 
 FreefareTag	 ntag21x_tag_new(nfc_device *device, nfc_target target);
@@ -209,9 +213,10 @@ MifareClassicBlockNumber  mifare_classic_sector_last_block(MifareClassicSectorNu
 #define MCAB_READ_KEYB         0x004
 #define MCAB_WRITE_KEYB        0x001
 
-struct mad_aid {
-    uint8_t application_code;
-    uint8_t function_cluster_code;
+struct mad_aid
+{
+   uint8_t application_code;
+   uint8_t function_cluster_code;
 };
 typedef struct mad_aid MadAid;
 
@@ -256,12 +261,13 @@ bool		 mifare_desfire_taste(nfc_device *device, nfc_target target);
 
 /* File types */
 
-enum mifare_desfire_file_types {
-    MDFT_STANDARD_DATA_FILE             = 0x00,
-    MDFT_BACKUP_DATA_FILE               = 0x01,
-    MDFT_VALUE_FILE_WITH_BACKUP         = 0x02,
-    MDFT_LINEAR_RECORD_FILE_WITH_BACKUP = 0x03,
-    MDFT_CYCLIC_RECORD_FILE_WITH_BACKUP = 0x04
+enum mifare_desfire_file_types
+{
+   MDFT_STANDARD_DATA_FILE             = 0x00,
+   MDFT_BACKUP_DATA_FILE               = 0x01,
+   MDFT_VALUE_FILE_WITH_BACKUP         = 0x02,
+   MDFT_LINEAR_RECORD_FILE_WITH_BACKUP = 0x03,
+   MDFT_CYCLIC_RECORD_FILE_WITH_BACKUP = 0x04
 };
 
 /* Communication mode */
@@ -370,11 +376,12 @@ bit 0: PICC master key frozen (reversible with configuration change or when form
 struct mifare_desfire_aid;
 typedef struct mifare_desfire_aid *MifareDESFireAID;
 
-struct mifare_desfire_df {
-    uint32_t aid;
-    uint16_t fid;
-    uint8_t df_name[16];
-    size_t df_name_len;
+struct mifare_desfire_df
+{
+   uint32_t aid;
+   uint16_t fid;
+   uint8_t df_name[16];
+   size_t df_name_len;
 };
 typedef struct mifare_desfire_df MifareDESFireDF;
 
@@ -387,52 +394,60 @@ uint8_t		 mifare_desfire_last_picc_error(FreefareTag tag);
 
 #pragma pack (push)
 #pragma pack (1)
-struct mifare_desfire_version_info {
-    struct {
-	uint8_t vendor_id;
-	uint8_t type;
-	uint8_t subtype;
-	uint8_t version_major;
-	uint8_t version_minor;
-	uint8_t storage_size;
-	uint8_t protocol;
-    } hardware;
-    struct {
-	uint8_t vendor_id;
-	uint8_t type;
-	uint8_t subtype;
-	uint8_t version_major;
-	uint8_t version_minor;
-	uint8_t storage_size;
-	uint8_t protocol;
-    } software;
-    uint8_t uid[7];
-    uint8_t batch_number[5];
-    uint8_t production_week;
-    uint8_t production_year;
+struct mifare_desfire_version_info
+{
+   struct
+   {
+      uint8_t vendor_id;
+      uint8_t type;
+      uint8_t subtype;
+      uint8_t version_major;
+      uint8_t version_minor;
+      uint8_t storage_size;
+      uint8_t protocol;
+   } hardware;
+   struct
+   {
+      uint8_t vendor_id;
+      uint8_t type;
+      uint8_t subtype;
+      uint8_t version_major;
+      uint8_t version_minor;
+      uint8_t storage_size;
+      uint8_t protocol;
+   } software;
+   uint8_t uid[7];
+   uint8_t batch_number[5];
+   uint8_t production_week;
+   uint8_t production_year;
 };
 #pragma pack (pop)
 
-struct mifare_desfire_file_settings {
-    uint8_t file_type;
-    uint8_t communication_settings;
-    uint16_t access_rights;
-    union {
-	struct {
-	    uint32_t file_size;
-	} standard_file;
-	struct {
-	    int32_t lower_limit;
-	    int32_t upper_limit;
-	    int32_t limited_credit_value;
-	    uint8_t limited_credit_enabled;
-	} value_file;
-	struct {
-	    uint32_t record_size;
-	    uint32_t max_number_of_records;
-	    uint32_t current_number_of_records;
-	} linear_record_file;
-    } settings;
+struct mifare_desfire_file_settings
+{
+   uint8_t file_type;
+   uint8_t communication_settings;
+   uint16_t access_rights;
+   union
+   {
+      struct
+      {
+         uint32_t file_size;
+      } standard_file;
+      struct
+      {
+         int32_t lower_limit;
+         int32_t upper_limit;
+         int32_t limited_credit_value;
+         uint8_t limited_credit_enabled;
+      } value_file;
+      struct
+      {
+         uint32_t record_size;
+         uint32_t max_number_of_records;
+         uint32_t current_number_of_records;
+      } linear_record_file;
+   } settings;
 };
 
 FreefareTag	 mifare_desfire_tag_new(nfc_device *device, nfc_target target);
